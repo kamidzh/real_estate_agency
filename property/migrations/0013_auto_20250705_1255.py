@@ -9,7 +9,8 @@ def add_flat_to_owner(apps, schema_editor):
 
 
     flats_by_name = {}
-    for flat in Flat.objects.all():
+    flats = Flat.objects.all()
+    for flat in flats.iterator():
         key = flat.owner.strip().lower()
         flats_by_name.setdefault(key, []).append(flat)
     for owner in Owner.objects.iterator():

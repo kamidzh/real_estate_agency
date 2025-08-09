@@ -8,14 +8,14 @@ def add_flat_to_owner(apps, schema_editor):
     Owner = apps.get_model('property', 'Owner')
 
 
-    flats_by_name = {}
-    flats = Flat.objects.all()
-    for flat in flats.iterator():
-        key = flat.owner.strip().lower()
-        flats_by_name.setdefault(key, []).append(flat)
+    flats_by_phonenumber = {}
+    all_flats = Flat.objects.all()
+    for flat in all_flats.iterator():
+        owner_phone_key = flat.owner_pure_phone.strip()
+        flats_by_phonenumber.setdefault(owner_phone_key, []).append(flat)
     for owner in Owner.objects.iterator():
-        key = owner.name.strip().lower()
-        flats = flats_by_name.get(key, [])
+        owner_phone_key = owner.owner_pure_phone.strip()
+        flats = flats_by_phonenumber.get(owner_phone_key, [])
         owner.flats.set(flats)
 
 
